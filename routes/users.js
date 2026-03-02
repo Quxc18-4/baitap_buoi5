@@ -7,5 +7,7 @@ router.get('/', userController.getAllUsers);
 router.get('/:id', userController.getUserByID);
 router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.softDeleteUser);
+router.post('/enable', userController.enableUser);
+router.post('/disable', userController.disableUser);
 
 module.exports = router;

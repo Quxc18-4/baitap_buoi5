@@ -73,4 +73,42 @@ const softDeleteUser = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getAllUsers, getUserByID, updateUser, softDeleteUser };
+const enableUser = async (req, res) => {
+    try {
+        const { email, username } = req.body;
+        const user = await User.findOneAndUpdate(
+            { email: email, username: username, isDeleted: false }, //tìm kiếm
+            { status: true }, //ghi đè
+            { new: true } // cập nhật
+        ).populate('role');
+
+        if (user) {
+            res.status(200).send({ message: "Kích hoạt tài khoản thành công", user });
+        } else {
+            res.status(404).send({ message: "Email hoặc Username không khớp, hoặc User không tồn tại" });
+        }
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
+
+const disableUser = async (req, res) => {
+    try {
+        const { email, username } = req.body;
+        const user = await User.findOneAndUpdate(
+            { email: email, username: username, isDeleted: false }, // tìm kiếm
+            { status: false }, // ghi đè
+            { new: true } // cập nhật
+        ).populate('role');
+
+        if (user) {
+            res.status(200).send({ message: "Vô hiệu hoá tài khoản thành công", user });
+        } else {
+            res.status(404).send({ message: "Email hoặc Username không khớp, hoặc User không tồn tại" });
+        }
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
+
+module.exports = { createUser, getAllUsers, getUserByID, updateUser, softDeleteUser, enableUser, disableUser };
