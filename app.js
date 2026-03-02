@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb://localhost:27017/NNPTUD-S2');
+mongoose.connect('mongodb://localhost:27017/btcn_buoi5');
 mongoose.connection.on('connected', function () {
   console.log("da connect");
 })
@@ -28,7 +28,7 @@ mongoose.connection.on('connected', function () {
 app.use('/', require('./routes/index'));
 //localhost:3000/users
 app.use('/users', require('./routes/users'));
-app.use('/products', require('./routes/products'));
+//app.use('/products', require('./routes/products'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
