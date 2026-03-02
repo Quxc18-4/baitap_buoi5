@@ -13,7 +13,7 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({ isDeleted: false }).populate('role');
+        const users = await User.find({ isDeleted: false }).populate({path:'role', select: 'name'});;
         res.status(200).send(users);
     } catch (error) {
         res.status(400).send({
@@ -24,7 +24,7 @@ const getAllUsers = async (req, res) => {
 
 const getUserByID = async (req, res) => {
     try{
-        const user = await User.findOne({ _id: req.params.id, isDeleted: false }).populate('role');
+        const user = await User.findOne({ _id: req.params.id, isDeleted: false }).populate({path:'role', select: 'name'});
         if(user){
             res.status(200).send(user);
         } else {
@@ -41,7 +41,7 @@ const getUserByID = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const user = await User.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true }).populate('role');
+        const user = await User.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true }).populate({path:'role', select: 'name'});
         if (user) {
             res.status(200).send(user);
         } else {
